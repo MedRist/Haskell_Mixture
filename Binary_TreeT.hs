@@ -22,20 +22,18 @@ post (N x left right)= (post left)++(post right)++[x]
 
 
 {--Build BTA form a list --}
-
 build :: (Ord a)=> [a]->BT a
-
 build []=E
 build [x]=N x E E
 build (x:xs)=add x(build xs)
 
 
+{--insertion by using fold--}
 bd xs =foldr (add)E xs
 
 
 
 {--Add an element to BT a --}
-
 add :: (Ord a)=> a-> BT a ->BT a
 add x E=N x E E
 add x (N a left right)| x==a =N x left right
@@ -45,12 +43,11 @@ add x (N a left right)| x==a =N x left right
 
 
 {--min of BTS--}
-
--- Minimum d'un arbre
 minT (N x E _) = x
 minT (N _ l _) = minT l
 
-{--delete element from BT--}
+
+{--delete an element from a BT--}
 delete x (N y E r) | x == y = r
 delete x (N y l E) | x == y = l
 delete x (N y l r) | x < y  = N y (delete x l) r
@@ -59,16 +56,13 @@ delete x (N y l r) | x < y  = N y (delete x l) r
                       where
                         k = minT r
 
-
-
-
 {--Root of a tree --}
 root :: BT a -> a
 root E=error "Empty tree"
 root (N x _ _)=x
 
 
-
+{--Murge--}
 murge :: (Ord a)=>BT a->BT a->BT a
 murge E E =E
 murge E (N a left right )=N a left right
